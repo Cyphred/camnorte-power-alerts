@@ -10,6 +10,8 @@
   "author": "jeremyzantua@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.0.5",
     "twitter-api-v2": "^1.14.2"
   },
   "devDependencies": {
