@@ -8,6 +8,18 @@ services:
       - 8000:8000
     volumes:
       - ./api:/app/api
+    environment:
+      MONGODB_DATABASE: mongodb
+      MONGODB_USERNAME: mongodb
+      MONGODB_PASSWORD: mongodb
+      MONGODB_HOSTNAME: mongodb
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - rabbitmq
+      - db
+
   bot:
     container_name: cnpa_twitter-bot
     build: ./bots/twitter
@@ -15,3 +27,42 @@ services:
       - 9000:9000
     volumes:
       - ./bots/twitter:/app/bots/twitter
+    depends_on:
+      - rabbitmq
+    networks:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: cnpa_rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
+    networks:
+      - rabbitmq
+
+  db:
+    container_name: cnpa_db
+    image: mongo:latest
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+      MONGO_INITDB_DATABASE: mongodb
+      MONGODB_DATA_DIR: /data/db/cloudprnt
+      MONGODB_LOG_DIR: /dev/null
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27018:27017
+    networks:
+      - db
+
+networks:
+  rabbitmq:
+    driver: bridge
+  db:
+    driver: bridge
