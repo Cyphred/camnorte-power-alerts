@@ -1,11 +1,30 @@
 version: "3.9"
 
 services:
+  backend:
+    container_name: cnpa_backend
+    build: ./backend
+    environment:
+      MONGODB_DATABASE: mongodb
+      MONGODB_USERNAME: mongodb
+      MONGODB_PASSWORD: mongodb
+      MONGODB_HOSTNAME: mongodb
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - ./backend:/app/backend/
+    networks:
+      - db
+      - rabbitmq
+
   api:
     container_name: cnpa_api
     build: ./api
     ports:
-      - 8000:8000
+      - 8001:8000
     volumes:
       - ./api:/app/api
     environment:
@@ -20,7 +39,7 @@ services:
       - rabbitmq
       - db
 
-  bot:
+  twitter_bot:
     container_name: cnpa_twitter-bot
     build: ./bots/twitter
     ports:
@@ -57,7 +76,7 @@ services:
     volumes:
       - ./data/db:/data/db
     ports:
-      - 27018:27017
+      - 27017:27017
     networks:
       - db
 
