@@ -1,0 +1,44 @@
+# IMPORTANT NOTE:
+# This version of the docker-compose file is for development purposes only.
+# When deploying to production, please switch to the production version of this file.
+
+version: "3.9"
+
+services:
+  db:
+    container_name: canoreco-twitter-bot_db
+    image: mongo:latest
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+      MONGO_INITDB_DATABASE: mongodb
+      MONGODB_DATA_DIR: /data/db/main
+      MONGODB_LOG_DIR: /dev/null
+    volumes:
+      - ./data/main:/data/db
+    ports:
+      - 9001:27017
+    networks:
+      - db
+
+  bot:
+    container_name: canoreco-twitter-bot
+    build: ./bot
+    environment:
+      MONGODB_DATABASE: mongodb
+      MONGODB_USERNAME: mongodb
+      MONGODB_PASSWORD: mongodb
+      MONGODB_HOSTNAME: mongodb
+    ports:
+      - 9000:9000
+    depends_on:
+      - db
+    volumes:
+      - ./bot:/app/bot/
+    networks:
+      - db
+
+networks:
+  db:
+    driver: bridge
