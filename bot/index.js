@@ -21,10 +21,18 @@ const publishTweet = async (text, image_urls) => {
 
   try {
     console.log("Posting tweet...");
-    const tweet = await client.v2.tweet({
-      text: text,
-      media: { media_ids: images },
-    });
+    let tweet;
+
+    if (images.length) {
+      tweet = await client.v2.tweet({
+        text: text,
+        media: { media_ids: images },
+      });
+    } else {
+      tweet = await client.v2.tweet({
+        text: text,
+      });
+    }
 
     console.log("Success!");
     return tweet;
