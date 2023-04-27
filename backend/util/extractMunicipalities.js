@@ -16,6 +16,25 @@ const extractMunicipalities = (original_text) => {
 
   // TODO Find a better way to do this check, if possible
 
+  if (contains(text, "CAMARINES NORTE")) {
+    const municipalities = [
+      municipalities.BASUD,
+      municipalities.CAPALONGA,
+      municipalities.DAET,
+      municipalities.LABO,
+      municipalities.MERCEDES,
+      municipalities.PARACALE,
+      municipalities.SAN_LORENZO_RUIZ,
+      municipalities.SAN_VICENTE,
+      municipalities.TALISAY,
+      municipalities.VINZONS,
+      municipalities.SANTA_ELENA,
+      municipalities.JOSE_PANGANIBAN,
+    ];
+
+    return municipalities;
+  }
+
   if (contains(text, "BASUD")) {
     detectedMunicipalities.push(municipalities.BASUD);
   }
