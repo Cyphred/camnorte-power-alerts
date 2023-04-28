@@ -89,8 +89,6 @@ const optimizeTextForTwitter = (data) => {
     day: "numeric",
   });
 
-  const affected_areas = generateAffectedAreas(affected_municipalities);
-
   optimized += `Advisory\n\n`;
   optimized += `Posted on ${post_time}, ${post_date}.\n`;
   optimized += `Original source from CANORECO Official Website: ${short_url}`;
