@@ -127,12 +127,12 @@ const getArticleData = async (url) => {
       .normalize("NFKD")
       .replace(/[^\x00-\x7F]/g, "");
 
-    const { start_date, end_date } = getStartAndEndTime(content_cleaned);
+    const { start, end } = getStartAndEndTime(content_cleaned);
 
     // Check if the end date hasn't lapsed
     const date_now = new Date();
-    if (date_now >= end_date) {
-      throw Error("Announcement is useless now. Skipping...");
+    if (date_now >= end) {
+      return stats;
     }
 
     const date_posted = new Date(article.find("time").attr("datetime"));
