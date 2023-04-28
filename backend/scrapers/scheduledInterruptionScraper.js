@@ -97,6 +97,7 @@ const getArticleData = async (url) => {
   const stats = {
     created: false,
     updated: false,
+    data: null,
   };
 
   try {
@@ -200,12 +201,50 @@ const getArticleData = async (url) => {
 
       await announcement.save();
     }
+
+    stats.data = announcement.toJSON();
   } catch (error) {
     console.error(error);
     throw error;
   }
 
   return stats;
+};
+
+const saveScrapeHistory = async (data) => {
+  const { initiated_at, total_ms, created, updated } = data;
+
+  const prepared = {
+    created: [],
+    updated: [],
+  };
+
+  for (const id of created) {
+    prepared.created.push({
+      refId: id,
+      refType: "ScheduledInterruption",
+    });
+  }
+
+  for (const id of updated) {
+    prepared.updated.push({
+      refId: id,
+      refType: "ScheduledInterruption",
+    });
+  }
+
+  try {
+    const record = await ScrapeHistory.create({
+      initiated_at,
+      total_ms,
+      ...prepared,
+    });
+
+    return record.toJSON();
+  } catch (err) {
+    console.error(err);
+    return;
+  }
 };
 
 const scrape = async () => {
@@ -216,30 +255,33 @@ const scrape = async () => {
     const start = performance.now();
 
     const links = await getURLsFromLatestPages(3);
-    const results = {
+
+    const stats = {
+      initiated_at: timestamp,
+      total_ms: 0,
       created: [],
       updated: [],
     };
 
     for (const url of links) {
-      const { created, updated } = await getArticleData(url);
+      const { created, updated, data } = await getArticleData(url);
 
       if (created) {
-        results.created.push(url);
+        stats.created.push(data._id);
       }
 
       if (updated) {
-        results.updated.push(url);
+        stats.updated.push(data._id);
       }
     }
 
-    const time = performance.now() - start;
+    // Log the time it finished scraping and saving data
+    stats.total_ms = performance.now() - start;
 
-    const stats = { initiated_at: timestamp, total_ms: time, ...results };
     console.log(stats);
 
-    if (results.created.length || results.updated.length) {
-      await ScrapeHistory.create(stats);
+    if (stats.created.length || stats.updated.length) {
+      saveScrapeHistory(stats);
     }
   } catch (error) {
     console.error(error);
