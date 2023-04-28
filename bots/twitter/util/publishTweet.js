@@ -7,7 +7,7 @@ const publishTweet = async (text, images) => {
 
   const uploaded = [];
 
-  if (images.length) {
+  if (images && images.length) {
     console.log("Uploading media...");
     for (const image of images) {
       try {
