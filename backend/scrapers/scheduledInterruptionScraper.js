@@ -8,6 +8,7 @@ const {
   broadcastToAllBots,
   broadcastLoggedAnnouncements,
 } = require("../events/broadcast");
+const getStartAndEndTime = require("../util/getStartAndEndTime");
 
 /**
  * Checks if 2 arrays have the same values, regardless of order.
@@ -150,6 +151,8 @@ const getArticleData = async (url) => {
     // Extract municipalities from text
     const affected_municipalities = ExtractMunicipalities(content_cleaned);
 
+    const { start_date, end_date } = getStartAndEndTime(content_cleaned);
+
     // Check if article exists in the database
     let announcement = await ScheduledInterruption.findOne({ url });
 
@@ -166,6 +169,8 @@ const getArticleData = async (url) => {
         content_hash,
         images,
         affected_municipalities,
+        start: start_date,
+        end: end_date,
       });
     }
     // Check for changes if an entry already exists
@@ -201,6 +206,13 @@ const getArticleData = async (url) => {
       ) {
         stats.updated = true;
         announcement.affected_municipalities = affected_municipalities;
+      }
+
+      if (announcement.start !== start_date) {
+        announcement.start = start_date;
+      }
+      if (announcement.end !== end_date) {
+        announcement.end = end_date;
       }
 
       await announcement.save();
