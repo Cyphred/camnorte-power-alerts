@@ -45,11 +45,13 @@ const broadcastLoggedAnnouncements = async (log_id) => {
 
     for (const newAnnouncement of created) {
       newAnnouncement.created = true;
+      newAnnouncement.type = "announcement";
       broadcastToAllBots(newAnnouncement);
     }
 
     for (const updatedAnnouncement of updated) {
-      newAnnouncement.created = false;
+      updatedAnnouncement.created = false;
+      updatedAnnouncement.type = "announcement";
       broadcastToAllBots(updatedAnnouncement);
     }
   } catch (err) {

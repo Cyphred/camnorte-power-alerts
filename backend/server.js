@@ -15,8 +15,10 @@ app.use((req, res, next) => {
 });
 
 const ScheduledInterruptionRoutes = require("./routes/scheduled");
+const devRoutes = require("./routes/dev");
 
 app.use("/api/power-interruptions/scheduled", ScheduledInterruptionRoutes);
+app.use("/api/dev", devRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

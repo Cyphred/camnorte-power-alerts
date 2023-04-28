@@ -1,6 +1,7 @@
 const amqp = require("amqplib");
 const { startConsumer } = require("./consumer");
 const tweet = require("../util/tweet");
+const publishTweet = require("../util/publishTweet");
 
 let connection;
 
@@ -22,7 +23,13 @@ const setup = async () => {
   connection = await connectToRabbitMQ();
 
   await startConsumer(connection, "twitter_publish", (message) => {
-    tweet(message);
+    const { type } = message;
+
+    if (type === "test") {
+      publishTweet(message.text);
+    } else if (type === "announcement") {
+      tweet(message);
+    }
   });
 };
 
