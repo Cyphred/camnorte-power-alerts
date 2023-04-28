@@ -1,5 +1,5 @@
 const client = require("../config/client");
-const getImages = require("../util/getImagesFromURLs");
+const getImages = require("./getImagesFromURLs");
 const path = require("path");
 
 const publishTweet = async (text, image_urls) => {
