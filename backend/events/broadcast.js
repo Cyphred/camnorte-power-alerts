@@ -4,6 +4,20 @@ const ScrapeHistory = require("../models/scrapeHistory");
 const ScheduledInterruption = require("../models/interruptions/scheduled");
 const EmergencyInterruption = require("../models/interruptions/emergency");
 
+const filterLapsedAnnouncements = (announcements) => {
+  const date_now = new Date();
+
+  const valid = [];
+
+  for (const item of announcements) {
+    if (date_now < item.end) {
+      valid.push(item);
+    }
+  }
+
+  return valid;
+};
+
 const broadcastToAllBots = async (payload) => {
   publishToQueue(BotChannels.TWITTER_PUBLISH, payload);
 };
@@ -21,8 +35,13 @@ const broadcastLoggedAnnouncements = async (log_id) => {
       );
     }
 
-    const created = await getAnnouncements(log.created);
-    const updated = await getAnnouncements(log.updated);
+    let created = await getAnnouncements(log.created);
+    let updated = await getAnnouncements(log.updated);
+
+    // Filter useless announcments
+    // Those that have already lapsed
+    created = filterLapsedAnnouncements(created);
+    updated = filterLapsedAnnouncements(updated);
 
     for (const newAnnouncement of created) {
       newAnnouncement.created = true;

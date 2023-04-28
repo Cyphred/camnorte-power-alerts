@@ -86,8 +86,6 @@ const getStartAndEndTime = (text) => {
     new Date(`${startDateString} ${startTimeString}`)
   );
 
-  console.log(`returning ${startDateTime} and ${endDateTime}`);
-
   return { start: startDateTime, end: endDateTime };
 };
 
