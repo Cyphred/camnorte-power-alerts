@@ -129,12 +129,6 @@ const getArticleData = async (url) => {
 
     const { start, end } = getStartAndEndTime(content_cleaned);
 
-    // Check if the end date hasn't lapsed
-    const date_now = new Date();
-    if (date_now >= end) {
-      return stats;
-    }
-
     const date_posted = new Date(article.find("time").attr("datetime"));
 
     // Get all images in the article content
