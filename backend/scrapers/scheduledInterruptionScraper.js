@@ -4,6 +4,10 @@ const crypto = require("crypto");
 const ScheduledInterruption = require("../models/interruptions/scheduled");
 const ScrapeHistory = require("../models/scrapeHistory");
 const ExtractMunicipalities = require("../util/extractMunicipalities");
+const {
+  broadcastToAllBots,
+  broadcastLoggedAnnouncements,
+} = require("../events/broadcast");
 
 /**
  * Checks if 2 arrays have the same values, regardless of order.
@@ -267,11 +271,11 @@ const scrape = async () => {
       const { created, updated, data } = await getArticleData(url);
 
       if (created) {
-        stats.created.push(data._id);
+        stats.created.push(data._id.toString());
       }
 
       if (updated) {
-        stats.updated.push(data._id);
+        stats.updated.push(data._id.toString());
       }
     }
 
@@ -280,8 +284,10 @@ const scrape = async () => {
 
     console.log(stats);
 
+    // If there is at least 1 announcement created or updated
     if (stats.created.length || stats.updated.length) {
-      saveScrapeHistory(stats);
+      const log = await saveScrapeHistory(stats);
+      broadcastLoggedAnnouncements(log._id);
     }
   } catch (error) {
     console.error(error);
