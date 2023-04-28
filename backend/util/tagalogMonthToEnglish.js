@@ -1,5 +1,6 @@
 const tagalogMonthToEnglish = (month) => {
-  const code = month.split(0, 3).toUpperCase();
+  month = month.toUpperCase();
+  const code = month.substring(0, 3);
 
   switch (code) {
     case "ENE":
@@ -38,3 +39,5 @@ const tagalogMonthToEnglish = (month) => {
       return "December";
   }
 };
+
+module.exports = tagalogMonthToEnglish;
