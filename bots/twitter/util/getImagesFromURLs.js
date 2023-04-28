@@ -1,4 +1,4 @@
-const { request } = require("http");
+const { request } = require("https");
 
 const getImagesFromURLs = async (urls) => {
   const images = [];
