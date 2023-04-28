@@ -1,19 +1,7 @@
 const mongoose = require("mongoose");
+const GenericInterruptionSchema = require("./schemas/genericInterruptionSchema");
 
 const Schema = mongoose.Schema;
-
-const AnnouncementReferenceSchema = new Schema({
-  refType: {
-    type: String,
-    enum: ["ScheduledInterruption", "EmergencyInterruption"],
-    required: true,
-  },
-  refId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    refPath: "refType",
-  },
-});
 
 const ScrapeHistorySchema = new Schema({
   initiated_at: {
@@ -25,10 +13,10 @@ const ScrapeHistorySchema = new Schema({
     required: true,
   },
   created: {
-    type: [AnnouncementReferenceSchema],
+    type: [GenericInterruptionSchema],
   },
   updated: {
-    type: [AnnouncementReferenceSchema],
+    type: [GenericInterruptionSchema],
   },
 });
 
