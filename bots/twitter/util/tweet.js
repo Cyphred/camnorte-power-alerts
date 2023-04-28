@@ -4,6 +4,7 @@ const publishTweet = require("./publishTweet");
 
 const tweet = async (data) => {
   data.short_url = "https://github.com/Cyphred";
+  data.date_posted = new Date(data.date_posted);
 
   const {
     created,
