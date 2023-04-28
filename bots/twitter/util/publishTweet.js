@@ -20,6 +20,11 @@ const publishTweet = async (text, images) => {
         console.error(err);
       }
     }
+
+    if (images.length !== uploaded.length) {
+      console.error("Could not upload image. Aborting...");
+      return;
+    }
   }
 
   try {
