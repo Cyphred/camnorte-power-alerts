@@ -3,6 +3,8 @@ const getImages = require("./getImagesFromURLs");
 const publishTweet = require("./publishTweet");
 
 const tweet = async (data) => {
+  data.short_url = "https://github.com/Cyphred";
+
   const {
     created,
     _id,
