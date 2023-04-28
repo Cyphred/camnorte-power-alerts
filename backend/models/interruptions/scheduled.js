@@ -2,6 +2,18 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const ArchivedContentSchema = new Schema(
+  {
+    date_posted: { type: Date },
+    title: { type: String },
+    content: { type: String },
+    content_hash: { type: String },
+    images: { type: [String] },
+    affected_municipalities: { type: [String] },
+  },
+  { timestamps: true }
+);
+
 const ScheduledInterruptionSchema = new Schema(
   {
     url: {
@@ -29,6 +41,9 @@ const ScheduledInterruptionSchema = new Schema(
     },
     affected_municipalities: {
       type: [String],
+    },
+    history: {
+      type: [ArchivedContentSchema],
     },
   },
   { timestamps: true }
