@@ -91,7 +91,7 @@ const optimizeTextForTwitter = (data) => {
 
   optimized += `Advisory\n\n`;
   optimized += `Posted on ${post_time}, ${post_date}.\n`;
-  optimized += `Original source from CANORECO Official Website: ${short_url}`;
+  optimized += `Source: CANORECO Official Website: ${short_url}`;
 
   return optimized;
 };

@@ -3,7 +3,8 @@ const getImages = require("./getImagesFromURLs");
 const publishTweet = require("./publishTweet");
 
 const tweet = async (data) => {
-  data.short_url = "https://github.com/Cyphred/camnorte-power-alerts-bot";
+  data.short_url =
+    "https://canoreco.com.ph/category/patalastas-ng-power-interruption/";
   data.date_posted = new Date(data.date_posted);
 
   const {
