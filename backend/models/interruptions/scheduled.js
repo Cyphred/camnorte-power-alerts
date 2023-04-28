@@ -10,6 +10,8 @@ const ArchivedContentSchema = new Schema(
     content_hash: { type: String },
     images: { type: [String] },
     affected_municipalities: { type: [String] },
+    start: { type: Date },
+    end: { type: Date },
   },
   { timestamps: true }
 );
@@ -41,6 +43,14 @@ const ScheduledInterruptionSchema = new Schema(
     },
     affected_municipalities: {
       type: [String],
+    },
+    start: {
+      type: Date,
+      required: true,
+    },
+    end: {
+      type: Date,
+      required: true,
     },
     history: {
       type: [ArchivedContentSchema],
