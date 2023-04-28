@@ -1,1 +1,4 @@
-const { publishTweet } = require("./actions/publishTweet");
+require("dotenv").config();
+const rabbitMQSetup = require("./rabbitmq/setup");
+
+rabbitMQSetup();
