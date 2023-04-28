@@ -25,12 +25,12 @@ const broadcastLoggedAnnouncements = async (log_id) => {
     const updated = await getAnnouncements(log.updated);
 
     for (const newAnnouncement of created) {
-      newAnnouncement.new = true;
+      newAnnouncement.created = true;
       broadcastToAllBots(newAnnouncement);
     }
 
     for (const updatedAnnouncement of updated) {
-      newAnnouncement.new = false;
+      newAnnouncement.created = false;
       broadcastToAllBots(updatedAnnouncement);
     }
   } catch (err) {
