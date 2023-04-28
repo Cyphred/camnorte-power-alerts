@@ -175,8 +175,8 @@ const getArticleData = async (url) => {
         content_hash,
         images,
         affected_municipalities,
-        start: start_date,
-        end: end_date,
+        start,
+        end,
       });
     }
     // Check for changes if an entry already exists
@@ -214,11 +214,11 @@ const getArticleData = async (url) => {
         announcement.affected_municipalities = affected_municipalities;
       }
 
-      if (announcement.start !== start_date) {
-        announcement.start = start_date;
+      if (announcement.start !== start) {
+        announcement.start = start;
       }
-      if (announcement.end !== end_date) {
-        announcement.end = end_date;
+      if (announcement.end !== end) {
+        announcement.end = end;
       }
 
       await announcement.save();
