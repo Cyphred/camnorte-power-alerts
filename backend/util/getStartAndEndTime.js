@@ -71,17 +71,22 @@ const getStartAndEndTime = (text) => {
           break;
       }
     }
-    const endTime = new Date();
-    endTime.setMinutes(startTime.getMinutes() + minutesToAdd);
-    endTime.setHours(startTime.getHours() + hoursToAdd);
 
-    return endTime;
+    startTime.setMinutes(startTime.getMinutes() + minutesToAdd);
+    startTime.setHours(startTime.getHours() + hoursToAdd);
+
+    return startTime;
   };
 
   const startDateString = getStartDateString(text);
   const startTimeString = getStartTimeString(text);
   const startDateTime = new Date(`${startDateString} ${startTimeString}`);
-  const endDateTime = getEndTime(text, startDateTime);
+  const endDateTime = getEndTime(
+    text,
+    new Date(`${startDateString} ${startTimeString}`)
+  );
+
+  console.log(`returning ${startDateTime} and ${endDateTime}`);
 
   return { start: startDateTime, end: endDateTime };
 };
