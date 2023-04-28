@@ -27,7 +27,7 @@ mongoose
   })
   .then((connection) => {
     // Setup RabbitMQ Consumers
-    require("./rabbitmq/startConsumers")(connection);
+    // require("./rabbitmq/startConsumers")(connection);
   })
   .then(() => {
     // Listen for requests
