@@ -1,17 +1,19 @@
 const client = require("../config/client");
+const getImages = require("../util/getImagesFromURLs");
 const path = require("path");
 
 const publishTweet = async (text, image_urls) => {
   console.log("Preparing tweet...");
 
-  const images = [];
+  const images = getImages(image_urls);
+  const uploaded = [];
 
-  if (image_urls && image_urls.length) {
+  if (images.length) {
     console.log("Uploading media...");
-    for (const url of image_urls) {
+    for (const image of images) {
       try {
-        const mediaId = await client.v1.uploadMedia(url);
-        images.push(mediaId);
+        const mediaId = await client.v1.uploadMedia(image);
+        uploaded.push(mediaId);
       } catch (err) {
         console.error(err);
       }
@@ -25,7 +27,7 @@ const publishTweet = async (text, image_urls) => {
     if (images.length) {
       tweet = await client.v2.tweet({
         text: text,
-        media: { media_ids: images },
+        media: { media_ids: uploaded },
       });
     } else {
       tweet = await client.v2.tweet({
