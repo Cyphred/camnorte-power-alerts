@@ -1,23 +1,22 @@
-const { request } = require("https");
+const axios = require("axios");
 
 const getImagesFromURLs = async (urls) => {
+  console.log(`Fetching ${urls.length} images`);
   const images = [];
 
   for (const url of urls) {
-    request(url, { encoding: "binary" }, (error, response, body) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      const image = Buffer.from(body, "binary").toString("base64");
-
+    try {
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const image = Buffer.from(response.data, "binary").toString("base64");
       if (image) {
         images.push(image);
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
+  console.log(`Fetched ${images.length} images`);
   return images;
 };
 
