@@ -27,8 +27,7 @@ mongoose
   })
   .then((connection) => {
     // Setup RabbitMQ Consumers
-    const { startConsumers } = require("./rabbitmq");
-    startConsumers(connection);
+    require("./rabbitmq/startConsumers")(connection);
   })
   .then(() => {
     // Listen for requests

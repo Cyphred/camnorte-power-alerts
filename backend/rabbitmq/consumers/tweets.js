@@ -16,8 +16,4 @@ const startTweetConsumer = async (conn) => {
   });
 };
 
-const startConsumers = async (conn) => {
-  startTweetConsumer(conn);
-};
-
-module.exports = { startConsumers };
+module.exports = { startTweetConsumer };
