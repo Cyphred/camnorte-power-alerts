@@ -1,6 +1,6 @@
 const client = require("../config/client");
-const getImages = require("./getImagesFromURLs");
-const path = require("path");
+const { Buffer } = require("buffer");
+const { EUploadMimeType } = require("twitter-api-v2");
 
 const publishTweet = async (text, images) => {
   console.log("Preparing tweet...");
@@ -11,7 +11,10 @@ const publishTweet = async (text, images) => {
     console.log("Uploading media...");
     for (const image of images) {
       try {
-        const mediaId = await client.v1.uploadMedia(image);
+        const ImageBuffer = Buffer.from(image, "base64");
+        const mediaId = await client.v1.uploadMedia(ImageBuffer, {
+          mimeType: EUploadMimeType.Png,
+        });
         uploaded.push(mediaId);
       } catch (err) {
         console.error(err);
