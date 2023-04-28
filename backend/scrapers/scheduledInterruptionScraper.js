@@ -294,7 +294,9 @@ const scrape = async () => {
     // Log the time it finished scraping and saving data
     stats.total_ms = performance.now() - start;
 
-    console.log(stats);
+    console.log(
+      `[SCRAPE] ${stats.created.length} created, ${stats.updated.length} updated in ${stats.total_ms}ms`
+    );
 
     // If there is at least 1 announcement created or updated
     if (stats.created.length || stats.updated.length) {
