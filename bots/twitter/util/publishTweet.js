@@ -2,10 +2,9 @@ const client = require("../config/client");
 const getImages = require("./getImagesFromURLs");
 const path = require("path");
 
-const publishTweet = async (text, image_urls) => {
+const publishTweet = async (text, images) => {
   console.log("Preparing tweet...");
 
-  const images = getImages(image_urls);
   const uploaded = [];
 
   if (images.length) {
@@ -24,7 +23,7 @@ const publishTweet = async (text, image_urls) => {
     console.log("Posting tweet...");
     let tweet;
 
-    if (images.length) {
+    if (uploaded.length) {
       tweet = await client.v2.tweet({
         text: text,
         media: { media_ids: uploaded },
@@ -43,4 +42,4 @@ const publishTweet = async (text, image_urls) => {
   }
 };
 
-module.exports = { publishTweet };
+module.exports = publishTweet;
