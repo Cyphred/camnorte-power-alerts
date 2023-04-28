@@ -1,5 +1,6 @@
 const amqp = require("amqplib");
 const { startConsumer } = require("./consumer");
+const tweet = require("../util/tweet");
 
 let connection;
 
@@ -21,7 +22,7 @@ const setup = async () => {
   connection = await connectToRabbitMQ();
 
   await startConsumer(connection, "twitter_publish", (message) => {
-    console.log("Message received");
+    tweet(message);
   });
 };
 
