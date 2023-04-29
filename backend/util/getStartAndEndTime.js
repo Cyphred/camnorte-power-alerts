@@ -80,11 +80,12 @@ const getStartAndEndTime = (text) => {
 
   const startDateString = getStartDateString(text);
   const startTimeString = getStartTimeString(text);
-  const startDateTime = new Date(`${startDateString} ${startTimeString}`);
-  const endDateTime = getEndTime(
-    text,
-    new Date(`${startDateString} ${startTimeString}`)
+  const templateDateString = new Date(
+    `${startDateString} ${startTimeString} ${process.env.TIMEZONE_OFFSET}`
   );
+
+  const startDateTime = new Date(templateDateString);
+  const endDateTime = getEndTime(text, templateDateString);
 
   return { start: startDateTime, end: endDateTime };
 };
