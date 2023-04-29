@@ -270,7 +270,9 @@ const scrape = async () => {
     // For measuring how much time it took to scrape everything
     const start = performance.now();
 
-    const links = await getURLsFromLatestPages(3);
+    const links = await getURLsFromLatestPages(
+      process.env.SCHEDULED_FETCH_PAGE_DEPTH
+    );
 
     const stats = {
       initiated_at: timestamp,
