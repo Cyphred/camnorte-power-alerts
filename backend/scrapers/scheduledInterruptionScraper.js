@@ -264,6 +264,7 @@ const saveScrapeHistory = async (data) => {
 };
 
 const scrape = async () => {
+  console.log("[SCRAPE_SCHED] Scraping scheduled interruptions");
   try {
     const timestamp = new Date();
 
@@ -297,7 +298,7 @@ const scrape = async () => {
     stats.total_ms = performance.now() - start;
 
     console.log(
-      `[SCRAPE] ${stats.created.length} created, ${stats.updated.length} updated in ${stats.total_ms}ms`
+      `[SCRAPE_SCHED] ${links.length} URLs scraped, ${stats.created.length} created, ${stats.updated.length} updated in ${stats.total_ms}ms`
     );
 
     // If there is at least 1 announcement created or updated
